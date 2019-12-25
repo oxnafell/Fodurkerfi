@@ -1,0 +1,162 @@
+(****** QuickLD compiler *******************************)
+(****** Copyright Rockwell Automation Canada, Ltd ******)
+(****** ST *********************************************)
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,1
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB1 := _IO_EM_DI_00 AND NOT(T1) AND NOT(_IO_EM_DI_01) AND NOT(M1) AND NOT(M4) ;
+__EDTB2 := __EDTB1 AND T2 ;
+__EDTB3 := __EDTB1 AND _IO_EM_DO_00 ;
+_IO_EM_DO_00 := (__EDTB2 OR __EDTB3) ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,4
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: TON *)
+TON_3(_IO_EM_DO_00, T#5M) ;
+T1 := TON_3.Q ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,7
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB4 := T1 ;
+IF __EDTB4 THEN
+(*Set coil*)
+M1 := TRUE ;
+END_IF ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,9
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+__EDTB5 := NOT(_IO_EM_DI_00) ;
+IF __EDTB5 THEN
+(*Reset coil*)
+M1 := FALSE ;
+END_IF ;
+__EDTB6 := NOT(_IO_EM_DI_00) ;
+IF __EDTB6 THEN
+(*Reset coil*)
+M5 := FALSE ;
+END_IF ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,12
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: TON *)
+TON_5(NOT(_IO_EM_DI_01), T#5M) ;
+__EDTB7 := TON_5.Q ;
+__EDTB8 := NOT(_IO_EM_DI_01) AND NOT(_IO_EM_DI_00) ;
+T2 := (__EDTB7 OR __EDTB8) ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,16
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: PULSGENE_Copy_1 *)
+PULSGENE_Copy_1_1(M1) ;
+__EDTB9 := PULSGENE_Copy_1_1.PULS ;
+__EDTB10 := NOT(_IO_EM_DI_00) ;
+(* FB call: PULSGENE *)
+PULSGENE_1(M5) ;
+__EDTB11 := PULSGENE_1.PULS ;
+__EDTB12 := (__EDTB10 OR __EDTB11) ;
+_IO_EM_DO_01 := (__EDTB9 OR __EDTB12) ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,20
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: TON *)
+TON_6(NOT(_IO_EM_DI_02) AND _IO_EM_DO_00, T#100MS) ;
+M2 := TON_6.Q ;
+__EDTB13 := TON_6.Q ;
+IF __EDTB13 THEN
+(*Set coil*)
+M5 := TRUE ;
+END_IF ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,23
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+M3 := NOT(_IO_EM_DI_00 AND NOT(_IO_EM_DI_01)) ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Rung **********************************)
+(**)
+__STEPPRAGMA
+0,25
+__ENDSTEPPRAGMA
+(*Label :*)(**)
+(* FB call: CTU *)
+CTU_2(M2, M3, 2) ;
+M4 := CTU_2.Q ;
+
+(*************** Code for the end of Rung **************)
+
+
+(*************** Code for the end of File **************)
+__GL __LG0000 ;
+
+
+
+(*************** Local Symbols table *******************)
+(* __EDTB1 *)
+(* __EDTB2 *)
+(* __EDTB3 *)
+(* __EDTB4 *)
+(* __EDTB5 *)
+(* __EDTB6 *)
+(* __EDTB7 *)
+(* __EDTB8 *)
+(* __EDTB9 *)
+(* __EDTB10 *)
+(* __EDTB11 *)
+(* __EDTB12 *)
+(* __EDTB13 *)
+
